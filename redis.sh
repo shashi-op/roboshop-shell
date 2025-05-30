@@ -29,11 +29,6 @@ else
     echo -e "$G You are a root user $N"
 fi
 
-dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>> $LOG_FILE
-VALIDATE $? "Installing Remi release"
-
-dnf module enable redis:remi-6.2 -y &>> $LOG_FILE
-VALIDATE $? "enabling redis"
 
 dnf install redis -y &>> $LOG_FILE
 VALIDATE $? "Installing Redis"
