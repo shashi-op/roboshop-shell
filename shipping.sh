@@ -60,28 +60,35 @@ unzip -o /tmp/shipping.zip &>> $LOG_FILE
 VALIDATE $? "unzipping shipping"
 
 mvn clean package &>> $LOG_FILE
-VALIDATE $? "Installing dependencies"
+VALIDATE $? "Packaging shipping"
 
 mv target/shipping-1.0.jar shipping.jar &>> $LOG_FILE
-VALIDATE $? "renaming jar file"
+VALIDATE $? "Renaming the artifact"
 
 cp /home/centos/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOG_FILE
-VALIDATE $? "copying shipping service"
+VALIDATE $? "Copying service file"
 
 systemctl daemon-reload &>> $LOG_FILE
-VALIDATE $? "deamon reload"
+VALIDATE $? "Daemon reload"
 
 systemctl enable shipping  &>> $LOG_FILE
-VALIDATE $? "enable shipping"
+VALIDATE $? "Enabling shipping"
 
 systemctl start shipping &>> $LOG_FILE
-VALIDATE $? "start shipping"
+VALIDATE $? "Starting shipping"
 
 dnf install mysql -y &>> $LOG_FILE
-VALIDATE $? "install MySQL client"
+VALIDATE $? "Installing MySQL"
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOG_FILE
-VALIDATE $? "loading shipping data"
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e "use cities" &>> $LOG_FILE
+if [ $? -ne 0 ]
+then
+    echo "Schema is ... LOADING"
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOG_FILE
+    VALIDATE $? "Loading schema"
+else
+    echo -e "Schema already exists... $Y SKIPPING $N"
+fi
 
-systemctl restart shipping &>> $LOG_FILE
-VALIDATE $? "restart shipping"
+systemctl restart shipping
+VALIDATE $? "Restarted Shipping
