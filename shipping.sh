@@ -7,7 +7,7 @@ R="\e[31m"  # Red color code
 G="\e[32m"
 Y="\e[33m" # Green color code
 N="\e[0m" # Normal code
-MYSQL_HOST="172.31.90.150"
+
 
 echo "This script has started at $TIMESTAMP" &>> $LOG_FILE
 
@@ -80,7 +80,7 @@ VALIDATE $? "Starting shipping"
 dnf install mysql -y &>> $LOG_FILE
 VALIDATE $? "Installing MySQL"
 
-mysql -h mysql.daws76s.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOG_FILE
+mysql -h 172.31.90.150 -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOG_FILE
 VALIDATE $? "loading shipping data"
 
 systemctl restart shipping &>> $LOG_FILE
