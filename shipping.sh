@@ -47,7 +47,7 @@ else
     echo -e "User already created $Y ---skipping $N"
 fi 
 
-mkdir /app
+mkdir -p /app
 VALIDATE $? "creating directory app"
 
 curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip &>> $LOG_FILE
