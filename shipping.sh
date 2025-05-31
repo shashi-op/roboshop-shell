@@ -80,15 +80,8 @@ VALIDATE $? "Starting shipping"
 dnf install mysql -y &>> $LOG_FILE
 VALIDATE $? "Installing MySQL"
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e "use cities" &>> $LOG_FILE
-if [ $? -ne 0 ]
-then
-    echo "Schema is ... LOADING"
-    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOG_FILE
-    VALIDATE $? "Loading schema"
-else
-    echo -e "Schema already exists... $Y SKIPPING $N"
-fi
+mysql -h mysql.daws76s.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOG_FILE
+VALIDATE $? "loading shipping data"
 
-systemctl restart shipping
+systemctl restart shipping &>> $LOG_FILE
 VALIDATE $? "Restarted Shipping
