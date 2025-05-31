@@ -24,7 +24,7 @@ VALIDATE(){
 if [ $ID -ne 0 ]
 then
     echo -e "$R You are not a root user $N"
-    exit 1 #if exit=0, cmd will continue, if exit>0, cmd will exit
+    exit 1 #if exit=0, cmd will continue, if exit>0, cmd will exittt
 else    
     echo -e "$G You are a root user $N"
 fi
